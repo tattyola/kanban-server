@@ -51,7 +51,7 @@ app.post('/card', (req, res) => {
 //     }
 // })
 
-// update all card
+// update card
 app.patch('/card/:cardId', (req, res) => {
     const cardId = req.params.cardId;
     const updatedCard = req.body;
