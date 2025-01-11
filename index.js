@@ -72,26 +72,16 @@ app.post('/tasks', (req, res) => {
     res.send('Task has been created')
 })
 
-// update status
-// app.patch('/card/:cardId', (req, res) => {
-//     const cardId = req.params.cardId;
-//     const updatedStatus = req.body.status;
-//     const cardToUpd = cards.find(el => el.id === cardId);
-//     if(cardToUpd) {
-//         cardToUpd.status = updatedStatus;
-//         res.send('Card has been updated')
-//     } else {
-//         res.status(404).send('not found')
-//     }
-// })
-
-// update card
 app.patch('/tasks/:taskId', (req, res) => {
     const taskId = req.params.taskId;
-    const updatedTask = req.body;
-    tasks = tasks.map(el => el.id === taskId ? ({...updatedTask, id: el.id }) : el);
+    const updatedProperties = req.body;
+    const taskIndex = tasks.findIndex(task => task.id === taskId);
+    if (taskIndex === -1) {
+        return res.status(404).send({ message: 'Task not found' });
+    }
+    tasks[taskIndex] = { ...tasks[taskIndex], ...updatedProperties, id: taskId };
     res.status(200).send(tasks);
-})
+});
 
 app.get('/statuses', (req, res) => {
     res.send(statuses);
